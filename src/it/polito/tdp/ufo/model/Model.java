@@ -2,6 +2,8 @@ package it.polito.tdp.ufo.model;
 
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -62,6 +64,7 @@ public class Model {
 	}
 
 	public List<String> getStati() {
+		Collections.sort(this.stati);
 		return this.stati;
 	}
 	
@@ -77,8 +80,12 @@ public class Model {
 	
 	public List<String> getRaggiungibili(String stato){
 		List<String> raggiungibili = new ArrayList<>();
-		DepthFirstIterator<String, DefaultEdge> dp = new DepthFirstIterator<>(this.grafo);
+		DepthFirstIterator<String, DefaultEdge> dp = new DepthFirstIterator<>(this.grafo, stato);
 		
+		dp.next();//per non considerare il nodo di partenza 
+		while(dp.hasNext()) {
+			raggiungibili.add(dp.next());
+		}
 	
 		
 		return raggiungibili;

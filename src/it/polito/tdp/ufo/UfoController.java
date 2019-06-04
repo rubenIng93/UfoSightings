@@ -36,6 +36,29 @@ public class UfoController {
     @FXML
     void handleAnalizza(ActionEvent event) {
     	
+    	txtResult.clear();
+    	String stato = this.boxStato.getValue();
+    	txtResult.appendText("Lista di nodi predecessori:\n");
+    	for(String predecessori : model.getPredecessori(stato)) {
+    		txtResult.appendText(predecessori+"\n");
+    	}
+    	
+    	txtResult.appendText("Lista di nodi successori:\n");
+    	for(String successori : model.getSuccessori(stato)) {
+    		txtResult.appendText(successori+"\n");
+    	}
+    	
+    	txtResult.appendText("Lista di nodi raggiungibili:\n");
+    	for(String raggiungibili : model.getRaggiungibili(stato)) {
+    		txtResult.appendText(raggiungibili+"\n");
+    	}
+    	
+    	
+    }
+
+    @FXML
+    void handleAvvistamenti(ActionEvent event) {
+    	
     	AnnoCount anno = boxAnno.getValue();
     	if(anno == null) {
     		txtResult.appendText("Devi selezionare un anno");
@@ -47,11 +70,6 @@ public class UfoController {
     	txtResult.appendText("\n# archi: " + this.model.getNarchi());
     	
     	this.boxStato.getItems().addAll(this.model.getStati());
-    }
-
-    @FXML
-    void handleAvvistamenti(ActionEvent event) {
-
     }
 
     @FXML
