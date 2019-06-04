@@ -5,6 +5,7 @@
 package it.polito.tdp.ufo;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.ufo.model.AnnoCount;
@@ -53,7 +54,6 @@ public class UfoController {
     		txtResult.appendText(raggiungibili+"\n");
     	}
     	
-    	
     }
 
     @FXML
@@ -74,7 +74,15 @@ public class UfoController {
 
     @FXML
     void handleSequenza(ActionEvent event) {
-
+    	
+    		String stato = boxStato.getValue();
+    		List<String> percorso = this.model.getPercorsoMax(stato);
+    		txtResult.clear();
+    		txtResult.appendText("PERCORSO MASSIMO: ");
+    		for(String s : percorso) {
+    			txtResult.appendText(s+" - ");
+    		}
+    	
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete

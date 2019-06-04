@@ -2,10 +2,8 @@ package it.polito.tdp.ufo.model;
 
 import java.time.Year;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
@@ -20,6 +18,30 @@ public class Model {
 	private SightingsDAO dao;
 	private List<String> stati;
 	private Graph<String, DefaultEdge> grafo;
+	
+	//PER LA RICORSIONE
+	
+	//1. struttura dati finale
+	private List<String> ottima; //lista di stati(STRING) in cui 
+	//c'è lo stato di partenza ed un insieme di altri stati non ripetuti
+	
+	//2.struttura dati parziale nel metodo ricorsivo
+	
+	//3 condizione di terminazione
+	//dopo un determinato nodo non ci sono più successori che non ho considerato
+	
+	//4. generare una nuova soluzione a partire da una soluzione parziale
+	//dato l'ultimo nodo inserito in parziale, considero tutti i successori di quel nodo
+	//che non ho ancora considerato
+	
+	//5. filtro
+	//alla fine ritornerò una sola soluzione -> quella per cui size() è massima
+	
+	//6. livello di ricorsione
+	//lunghezza del percorso parziale
+	
+	//7. il caso iniziale
+	//parziale contiene il mio stato di partenza
 	
 	
 	public Model() {
@@ -89,6 +111,38 @@ public class Model {
 	
 		
 		return raggiungibili;
-}
+	}
+	
+	public List<String> getPercorsoMax(String partenza){
+		
+		this.ottima = new ArrayList<>();		
+		List<String> parziale = new ArrayList<>();
+		
+		parziale.add(partenza);
+		
+		cercaPercorso(parziale);
+		
+		return this.ottima;
+	}
+
+	private void cercaPercorso(List<String> parziale) {
+		
+		//vedere se la soluzione corrente è migliore della ottima corrente
+		if(parziale.size() > ottima.size()) {
+			this.ottima = new ArrayList<>(parziale);
+		}
+		
+		List<String> candidati = this.getSuccessori(parziale.get(parziale.size() - 1));
+		for(String candidato : candidati) {
+			if(!parziale.contains(candidato)) {
+				//è un candidato che non ho ancora considerato
+				parziale.add(candidato);
+				cercaPercorso(parziale);
+				parziale.remove(parziale.size() - 1);
+			}
+		}
+		
+	}
+	
 
 }
